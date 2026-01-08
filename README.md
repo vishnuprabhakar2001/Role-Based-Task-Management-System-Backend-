@@ -1,47 +1,117 @@
 # Role-Based Task Management System (Backend)
+1. Project Description 
+Project Name
 
-This is a backend application built using **Node.js, Express, and MongoDB**.  
-The project focuses on implementing **JWT-based authentication** and **role-based access control (RBAC)** to manage tasks within an organization.
+Role-Based Task Management System (Backend)
 
-The system supports multiple user roles such as **Admin, Manager, and Employee**, each with different permissions for creating, assigning, viewing, and updating tasks.
+What this system does (high level)
 
-This project is being developed as a learning-focused, industry-relevant backend application suitable for entry-level backend developer roles.
+This backend system allows an organization to:
 
----
+Manage users with different roles
 
-## Tech Stack
+Assign and track tasks
 
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JSON Web Tokens (JWT)
-- bcryptjs
-- cookie-parser
+Control who can do what using role-based authorization
 
----
+There is no frontend dependency. This backend can be used by:
 
-## Features (In Progress)
+Web apps
 
-- User registration and login
-- Password hashing and authentication
-- Role-based authorization (Admin, Manager, Employee)
-- Task creation and assignment
-- Task status management
-- Secure REST APIs
+Mobile apps
 
----
+Admin dashboards
 
-## Project Status
+2. Core Roles in the System
+1. Admin
 
-🚧 **Under Development**  
-Core backend features are being implemented step by step.
+Can create users
 
----
+Can assign roles
 
-## Getting Started
+Can view all users and tasks
 
-1. Clone the repository
-2. Install dependencies  
-   ```bash
-   npm install
+Has full system access
+
+2. Manager
+
+Can create tasks
+
+Can assign tasks to employees
+
+Can view tasks of their team
+
+3. Employee
+
+Can view assigned tasks
+
+Can update task status (pending, in-progress, completed)
+
+This role separation is the industry standard for internal tools.
+
+3. Authentication & Authorization Flow
+Authentication (Who are you?)
+
+User logs in using email + password
+
+Server verifies credentials
+
+Server issues a JWT token
+
+Authorization (What can you do?)
+
+JWT token is verified in middleware
+
+User role is extracted from token
+
+Access is granted or denied based on role
+
+Example:
+
+Employee cannot create users
+
+Manager cannot delete users
+
+Admin can do everything
+
+4. Task Lifecycle (Simple but Realistic)
+
+Manager creates a task
+
+Task is assigned to an employee
+
+Employee updates task status
+
+Manager/Admin can track progress
+
+Each task has:
+
+Title
+
+Description
+
+Assigned user
+
+Status
+
+CreatedBy
+
+Timestamps
+
+5. Why This Project Is Industry-Relevant (Important for Interviews)
+
+This project demonstrates:
+
+JWT-based authentication
+
+Role-based access control (RBAC)
+
+Secure password handling
+
+Clean Express architecture
+
+Mongoose schema design
+
+Middleware usage
+
+Production-level folder structure
