@@ -1,4 +1,4 @@
-import errorHandler from "./middlewares/errorHandler.js";
+// index.js
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -8,9 +8,9 @@ import errorHandler from "./middlewares/errorHandler.js";
 
 connectDB();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
-app.use(errorHandler)
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Error handler (last middleware)
+app.use(errorHandler);
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
