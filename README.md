@@ -98,7 +98,7 @@ CreatedBy
 
 Timestamps
 
-5. Why This Project Is Industry-Relevant (Important for Interviews)
+5. Why This Project Is Industry-Relevant
 
 This project demonstrates:
 
@@ -115,3 +115,14 @@ Mongoose schema design
 Middleware usage
 
 Production-level folder structure
+
+
+Recommended permissions
+| Action             | Admin | Manager | Employee |
+| ------------------ | ----- | ------- | -------- |
+| Create task        | ✅     | ✅       | ❌        |
+| Assign task        | ❌     | ✅       | ❌        |
+| View own tasks     | ❌     | ❌       | ✅        |
+| View all tasks     | ✅     | ✅       | ❌        |
+| Update task status | ❌     | ❌       | ✅        |
+| Delete task        | ✅     | ❌       | ❌        |

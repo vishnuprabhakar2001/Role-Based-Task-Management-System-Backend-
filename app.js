@@ -1,7 +1,8 @@
-// app.js
 import express from "express";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoutes.js";
+import testRoutes from "./routes/testRoutes.js";
+import taskRoutes from "./routes/taskRoutes.js";
 
 const app = express();
 
@@ -11,5 +12,8 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/test", testRoutes);
+app.use("/api/tasks", taskRoutes);
+
 
 export default app;
