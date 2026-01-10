@@ -3,8 +3,8 @@ import { constants } from "../constants.js";
 
 export const authorize = (...allowedRoles) =>   // Here, ...allowedRoles is a REST PARAMETER, not the spread operator. Meaning: “Collect all arguments passed to this function and store them in a single array called allowedRoles.”
   asyncHandler(async (req, res, next) => {      // The three dots (...) are used to collect multiple parameters passed to a function and store them as elements in a single array.
-
-    if (!req.user) {
+                                                // in the first line, This arrow function has no curly braces. Therefore, it uses an implicit return. Whatever comes immediately after => is returned automatically. It is returning asyncHandler(async (req, res, next) => { ... }).
+     if (!req.user) {
       res.status(constants.UNAUTHORIZED);
       throw new Error("User not authenticated");
     }
