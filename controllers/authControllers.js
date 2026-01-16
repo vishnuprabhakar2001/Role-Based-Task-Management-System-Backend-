@@ -3,11 +3,7 @@ import ms from "ms";
 import User from "../models/userModel.js";
 import { constants } from "../constants.js";
 
-/**
- * @desc    Register new user
- * @route   POST /api/auth/register
- * @access  Public
- */
+
 export const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, role } = req.body;
 
@@ -45,11 +41,7 @@ export const registerUser = asyncHandler(async (req, res) => {
 });
 
 
-/**
- * @desc    Login user
- * @route   POST /api/auth/login
- * @access  Public
- */
+
 export const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
