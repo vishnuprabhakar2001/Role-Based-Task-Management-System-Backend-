@@ -2,10 +2,12 @@ import asyncHandler from "express-async-handler";
 import ms from "ms";
 import User from "../models/userModel.js";
 import { constants } from "../constants.js";
+import { uploadOnCloudinary } from "../middlewares/cloudinary.js";
 
 
 export const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, role } = req.body;
+  console.log(req.body);
 
   if (!name || !email || !password) {
     res.status(constants.VALIDATION_ERROR);
@@ -18,11 +20,27 @@ export const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
 
+  const image = req.files?.photo[0]?.path;
+
+  if (!image) {
+    res.status(constants.VALIDATION_ERROR);
+    throw new Error("Photo is required");
+  }
+
+  const uploadResult = await uploadOnCloudinary(image);
+
+  if (!uploadResult) {
+    res.status(constants.SERVER_ERROR);
+    throw new Error("Photo upload failed");
+  }
+
+
   const user = await User.create({
     name,
     email,
     password,
-    role
+    role,
+    photo: uploadResult.url
   });
 
  
@@ -35,7 +53,8 @@ export const registerUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      role: user.role
+      role: user.role,
+      photo: user.photo
     }
   });
 });
