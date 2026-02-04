@@ -7,7 +7,7 @@ import {
   getMyTasks,
   updateTaskStatus,
   deleteTask,
-  assignTask
+  assignTask,
 } from "../controllers/taskController.js";
 
 const router = express.Router();
@@ -25,6 +25,5 @@ router.delete("/:id", protect, authorize("admin"), deleteTask);
 
 // Manager only
 router.patch("/:id/assign", protect, authorize("manager"), assignTask);
-
 
 export default router;
