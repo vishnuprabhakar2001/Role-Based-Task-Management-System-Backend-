@@ -7,33 +7,42 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
     },
     email: {
       type: String,
       required: true,
       unique: true,
-      lowercase: true
+      lowercase: true,
     },
     password: {
       type: String,
       required: true,
-      select: false
+      select: false,
     },
     photo: {
-      type: String, 
-      required: true
+      type: String,
+      required: true,
     },
     role: {
       type: String,
       enum: ["admin", "manager", "employee"],
-      default: "employee"
-    }
+      default: "employee",
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
+
+// Virtual field
+userSchema.virtual("assignedTasks", {
+  ref: "Task",
+  localField: "_id",
+  foreignField: "assignedTo",
+});
 
 /**
  * Hash password before saving
@@ -43,7 +52,6 @@ userSchema.pre("save", async function () {
 
   this.password = await bcrypt.hash(this.password, 10);
 });
-
 
 /**
  * Compare entered password with hashed password
@@ -60,11 +68,11 @@ userSchema.methods.generateAccessToken = function () {
     {
       _id: this._id,
       email: this.email,
-      role: this.role
+      role: this.role,
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
-      expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
     }
   );
 };

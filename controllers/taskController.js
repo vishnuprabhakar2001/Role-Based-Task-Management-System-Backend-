@@ -3,9 +3,8 @@ import Task from "../models/taskModel.js";
 import { constants } from "../constants.js";
 import User from "../models/userModel.js";
 
-
 export const createTask = asyncHandler(async (req, res) => {
-  const { title, description } = req.body;
+  const { title, description, deadline } = req.body;
 
   if (!title) {
     res.status(constants.VALIDATION_ERROR);
@@ -15,17 +14,16 @@ export const createTask = asyncHandler(async (req, res) => {
   const task = await Task.create({
     title,
     description,
-    createdBy: req.user._id
+    deadline,
+    createdBy: req.user._id,
   });
 
   res.status(201).json({
     success: true,
     message: "Task created successfully",
-    data: task
+    data: task,
   });
 });
-
-
 
 export const getAllTasks = asyncHandler(async (req, res) => {
   const tasks = await Task.find()
@@ -36,11 +34,9 @@ export const getAllTasks = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     count: tasks.length,
-    data: tasks
+    data: tasks,
   });
 });
-
-
 
 export const getMyTasks = asyncHandler(async (req, res) => {
   const tasks = await Task.find({ assignedTo: req.user._id })
@@ -50,11 +46,9 @@ export const getMyTasks = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     count: tasks.length,
-    data: tasks
+    data: tasks,
   });
 });
-
-
 
 export const assignTask = asyncHandler(async (req, res) => {
   const { assignedTo } = req.body;
@@ -82,17 +76,15 @@ export const assignTask = asyncHandler(async (req, res) => {
   }
 
   task.assignedTo = assignedTo;
-  task.status = "in-progress";
+  task.status = "pending";
   await task.save();
 
   res.status(200).json({
     success: true,
     message: "Task assigned successfully",
-    data: task
+    data: task,
   });
 });
-
-
 
 export const updateTaskStatus = asyncHandler(async (req, res) => {
   const { status } = req.body;
@@ -124,12 +116,11 @@ export const updateTaskStatus = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     message: "Task status updated successfully",
-    data: task
+    data: task,
   });
 });
 
 export const deleteTask = asyncHandler(async (req, res) => {
-
   const task = await Task.findById(req.params.id);
   if (!task) {
     res.status(constants.NOT_FOUND);
@@ -141,6 +132,6 @@ export const deleteTask = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     message: "Task deleted successfully",
-    data: task
+    data: task,
   });
 });
